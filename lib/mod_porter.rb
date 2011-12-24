@@ -16,7 +16,15 @@ module ModPorter
     end
 
     def to_tempfile
-      return File.new(self.path)
+      @tempfile ||= File.new(self.path)
+    end
+
+    def read
+      to_tempfile.read
+    end
+
+    def rewind
+      to_tempfile.rewind
     end
 
     def size
