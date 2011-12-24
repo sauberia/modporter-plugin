@@ -13,7 +13,6 @@ module ModPorter
     def initialize(options)
       @path = options[:path]
       @original_filename = options[:filename]
-      @content_type = options[:content_type]
     end
 
     def to_tempfile
@@ -22,6 +21,14 @@ module ModPorter
 
     def size
       File.size(self.path)
+    end
+
+    def content_type
+      @content_type ||= begin
+        `file --mime -b #{@path}`.gsub(/\;.*\n?$/,'')
+      rescue
+        'octet-stream'
+      end
     end
   end
   
